@@ -1,4 +1,4 @@
-package com.controle_estoque_back.controle_estoque_back;
+package com.controle_estoque_back;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
