@@ -5,8 +5,8 @@ import com.controle_estoque_back.dto.ProductResponseDTO;
 import com.controle_estoque_back.entity.Product;
 import com.controle_estoque_back.entity.Category;
 import com.controle_estoque_back.mapper.ProductMapper;
-import com.controle_estoque_back.repository.ProductRepository;
 import com.controle_estoque_back.repository.CategoryRepository;
+import com.controle_estoque_back.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
