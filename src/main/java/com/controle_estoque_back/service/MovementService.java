@@ -44,6 +44,7 @@ public class MovementService {
             throw new IllegalArgumentException("Estoque insuficiente para saída");
         }
 
+        // Atualiza estoque
         if (dto.movementType() == MovementType.ENTRY) {
             product.setQuantityInStock(product.getQuantityInStock() + dto.quantityMoved());
         } else {
@@ -51,6 +52,7 @@ public class MovementService {
         }
         productRepository.save(product);
 
+        // Registra movimento
         Movement movement = new Movement();
         movement.setProductId(dto.productId());
         movement.setQuantityMoved(dto.quantityMoved());
