@@ -32,7 +32,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO save(CategoryRequestDTO dto) {
-        Category category = categoryRepository.findById(dto.getId()).orElseThrow();
+        Category category = mapper.toEntity(dto);
         return mapper.toResponseDTO(categoryRepository.save(category));
     }
 
