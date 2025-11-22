@@ -3,72 +3,46 @@ package com.controle_estoque_back.service;
 import com.controle_estoque_back.dto.CategoryRequestDTO;
 import com.controle_estoque_back.dto.CategoryResponseDTO;
 import com.controle_estoque_back.entity.Category;
-import org.springframework.stereotype.Service;
+import com.controle_estoque_back.mapper.CategoryMapper;
+import com.controle_estoque_back.repository.CategoryRepository;
 
-import java.util.*;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CategoryService {
 
-    private final Map<Long, Category> database = new HashMap<>();
-    private long counter = 1;
+    private final CategoryRepository categoryRepository;
+    private final CategoryMapper mapper;
 
-    // --------------------------
-    //  Métodos de conversão
-    // --------------------------
-
-    private CategoryResponseDTO toResponseDTO(Category c) {
-        CategoryResponseDTO dto = new CategoryResponseDTO();
-        dto.setId(c.getId());
-        dto.setName(c.getName());
-        dto.setSize(c.getSize());
-        dto.setPackaging(c.getPackaging());
-        return dto;
+    public CategoryService(CategoryRepository categoryRepository,
+                          CategoryMapper mapper) {
+        this.categoryRepository = categoryRepository;
+        this.mapper = mapper;
     }
-
-    private Category toEntity(CategoryRequestDTO dto) {
-        Category c = new Category();
-        c.setName(dto.getName());
-        c.setSize(dto.getSize());
-        c.setPackaging(dto.getPackaging());
-        return c;
-    }
-
-    // --------------------------
-    //      MÉTODOS CRUD
-    // --------------------------
 
     public List<CategoryResponseDTO> findAll() {
-        return database.values()
-                .stream()
-                .map(this::toResponseDTO)
+        return categoryRepository.findAll().stream()
+                .map(mapper::toResponseDTO)
                 .toList();
     }
 
     public CategoryResponseDTO findById(Long id) {
-        Category category = database.get(id);
-        return category != null ? toResponseDTO(category) : null;
+        return mapper.toResponseDTO(categoryRepository.findById(id).orElseThrow());
     }
 
     public CategoryResponseDTO save(CategoryRequestDTO dto) {
-        Category category = toEntity(dto);
-        category.setId(counter++);
-        database.put(category.getId(), category);
-        return toResponseDTO(category);
+        Category category = categoryRepository.findById(dto.getId()).orElseThrow();
+        return mapper.toResponseDTO(categoryRepository.save(category));
     }
 
     public CategoryResponseDTO update(Long id, CategoryRequestDTO dto) {
-        Category existing = database.get(id);
-        if (existing == null) return null;
-
-        existing.setName(dto.getName());
-        existing.setSize(dto.getSize());
-        existing.setPackaging(dto.getPackaging());
-
-        return toResponseDTO(existing);
+        Category category = categoryRepository.findById(id).orElseThrow();
+        mapper.updateEntity(category, dto);
+        return mapper.toResponseDTO(categoryRepository.save(category));
     }
 
     public void delete(Long id) {
-        database.remove(id);
+        categoryRepository.deleteById(id);
     }
 }
