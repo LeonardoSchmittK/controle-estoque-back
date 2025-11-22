@@ -1,6 +1,7 @@
 package com.controle_estoque_back.controller;
 
-import com.controle_estoque_back.entity.Category;
+import com.controle_estoque_back.dto.CategoryResponseDTO;
+import com.controle_estoque_back.dto.CategoryRequestDTO;
 import com.controle_estoque_back.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +19,24 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        Category category = categoryService.findById(id);
-        return ResponseEntity.ok(category);
+    public ResponseEntity<CategoryResponseDTO> getCategoryById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        Category newCategory = categoryService.save(category);
-        return ResponseEntity.ok(newCategory);
+    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO dto) {
+        return ResponseEntity.ok(categoryService.save(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id,
-                                                   @RequestBody Category category) {
-        Category updatedCategory = categoryService.update(id, category);
-        return ResponseEntity.ok(updatedCategory);
+    public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long id,
+                                                   @RequestBody CategoryRequestDTO dto) {
+        return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
