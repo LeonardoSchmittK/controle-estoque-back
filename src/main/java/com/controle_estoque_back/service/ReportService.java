@@ -2,16 +2,18 @@ package com.controle_estoque_back.service;
 
 import com.controle_estoque_back.dto.report.*;
 import com.controle_estoque_back.repository.ReportRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ReportService {
 
     private final ReportRepository reportRepository;
+
+    public ReportService(ReportRepository reportRepository) {
+        this.reportRepository = reportRepository;
+    }
 
     public List<PriceListDTO> getPriceList() {
         return reportRepository.getPriceList();
@@ -33,3 +35,4 @@ public class ReportService {
         return reportRepository.getMostMoved();
     }
 }
+
