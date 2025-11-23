@@ -5,6 +5,7 @@ import com.controle_estoque_back.dto.CategoryRequestDTO;
 import com.controle_estoque_back.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO dto) {
+    public ResponseEntity<CategoryResponseDTO> createCategory(@Valid @RequestBody CategoryRequestDTO dto) {
         return ResponseEntity.ok(categoryService.save(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long id,
-                                                   @RequestBody CategoryRequestDTO dto) {
+                                                              @Valid @RequestBody CategoryRequestDTO dto) {
         return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
