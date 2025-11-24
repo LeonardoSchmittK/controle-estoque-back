@@ -1,12 +1,9 @@
 package com.controle_estoque_back.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CategoryRequestDTO {
-
-    @NotNull(message = "O ID não pode ser nulo")
     private Long id;
 
     @NotBlank(message = "O nome da categoria é obrigatório")
