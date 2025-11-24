@@ -2,17 +2,19 @@ package com.controle_estoque_back.controller;
 
 import com.controle_estoque_back.dto.report.*;
 import com.controle_estoque_back.service.ReportService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/reports")
-@RequiredArgsConstructor
 public class ReportController {
 
     private final ReportService service;
+
+    public ReportController(ReportService service) {
+        this.service = service;
+    }
 
     @GetMapping("/price-list")
     public List<PriceListDTO> priceList() {
@@ -39,3 +41,4 @@ public class ReportController {
         return service.getMostMoved();
     }
 }
+

@@ -10,8 +10,9 @@ public class Movement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productId;
-
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
     private Integer quantityMoved;
 
     @Enumerated(EnumType.STRING)
@@ -27,12 +28,12 @@ public class Movement {
         this.id = id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Integer getQuantityMoved() {

@@ -13,7 +13,7 @@ public class Product {
     private String name;
     private Double unitPrice;
     private String unit;
-    private Integer quantityInStock;
+    private Integer quantityInStock = 0;
     private Integer minQuantity;
     private Integer maxQuantity;
 
@@ -61,20 +61,20 @@ public class Product {
         this.quantityInStock = quantityInStock;
     }
 
-    public Integer getMinQuantity() {
-        return minQuantity;
-    }
-
-    public void setMinQuantity(Integer minQuantity) {
-        this.minQuantity = minQuantity;
-    }
-
     public Integer getMaxQuantity() {
         return maxQuantity;
     }
 
     public void setMaxQuantity(Integer maxQuantity) {
         this.maxQuantity = maxQuantity;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 
     public Category getCategory() {

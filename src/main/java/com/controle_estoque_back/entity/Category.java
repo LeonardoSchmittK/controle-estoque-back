@@ -2,6 +2,8 @@ package com.controle_estoque_back.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -12,7 +14,10 @@ public class Category {
     private Long id;
     private String name;
     private String size;      
-    private String packaging; 
+    private String packaging;
+
+    @OneToMany(mappedBy = "category")
+    private java.util.List<Product> products;
 
     public Category() {
     }
@@ -28,7 +33,7 @@ public class Category {
         return id;
     }
 
-    public void setId(Long id) {   // <— ✔ THIS FIXES THE ERROR
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,4 +61,11 @@ public class Category {
         this.packaging = packaging;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }
