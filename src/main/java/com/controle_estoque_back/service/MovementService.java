@@ -7,8 +7,6 @@ import com.controle_estoque_back.mapper.MovementMapper;
 import com.controle_estoque_back.repository.MovementRepository;
 import com.controle_estoque_back.repository.ProductRepository;
 import com.controle_estoque_back.exceptions.StatusEntityNotFoundException;
-
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -70,8 +68,11 @@ public class MovementService {
             );
         }
 
-        // Criar registro de movimento
-        Movement movement = mapper.toEntity(dto);
+        // Registra movimento
+        Movement movement = new Movement();
+        movement.setProduct(product);
+        movement.setQuantityMoved(dto.quantityMoved());
+        movement.setMovementType(dto.movementType());
 
         try {
             return mapper.toResponseDTO(movementRepository.save(movement));
