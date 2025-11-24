@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: controle_estoque
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: SENHA
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+  backend:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/controle_estoque
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: SENHA
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+volumes:
+  postgres-data:
