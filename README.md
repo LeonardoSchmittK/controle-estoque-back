@@ -24,7 +24,7 @@ AWS
 
 ## Instruções rápidas para rodar:
 
-### Pela Web (AWS)
+### Acesso pela Web (AWS)
 
 http://3.85.245.28:8080/api/health
 
