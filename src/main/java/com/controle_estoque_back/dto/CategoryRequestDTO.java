@@ -11,9 +11,11 @@ public class CategoryRequestDTO {
     private String name;
 
     @NotBlank(message = "O tamanho deve ser informado")
+    @Size(min = 2, max = 50, message = "O tamanho deve ter entre 2 e 50 caracteres")
     private String size;
 
     @NotBlank(message = "A embalagem deve ser informada")
+    @Size(min = 2, max = 50, message = "A embalagem deve ter entre 2 e 50 caracteres")
     private String packaging;
 
     public Long getId() {
