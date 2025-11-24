@@ -6,6 +6,10 @@ import com.controle_estoque_back.entity.*;
 import com.controle_estoque_back.mapper.MovementMapper;
 import com.controle_estoque_back.repository.MovementRepository;
 import com.controle_estoque_back.repository.ProductRepository;
+import com.controle_estoque_back.exceptions.StatusEntityNotFoundException;
+
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,33 +36,50 @@ public class MovementService {
                 .toList();
     }
 
-    public MovementResponseDTO save(MovementRequestDTO dto) {
+     public MovementResponseDTO save(MovementRequestDTO dto) {
+
+        // 404 – Produto não encontrado
         Product product = productRepository.findById(dto.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+                .orElseThrow(() ->
+                        new StatusEntityNotFoundException("Produto não encontrado: id=" + dto.productId()));
 
+        // 400 – Quantidade inválida
         if (dto.quantityMoved() <= 0) {
-            throw new IllegalArgumentException("Quantidade deve ser maior que 0");
+            throw new IllegalArgumentException("A quantidade deve ser maior que 0");
         }
 
-        if (dto.movementType() == MovementType.EXIT && dto.quantityMoved() > product.getQuantityInStock()) {
-            throw new IllegalArgumentException("Estoque insuficiente para saída");
+        // 400 – Estoque insuficiente para saída
+        if (dto.movementType() == MovementType.EXIT
+                && dto.quantityMoved() > product.getQuantityInStock()) {
+            throw new IllegalArgumentException("Estoque insuficiente para realizar a saída");
         }
 
-        // Atualiza estoque
+        // Atualizar estoque
         if (dto.movementType() == MovementType.ENTRY) {
             product.setQuantityInStock(product.getQuantityInStock() + dto.quantityMoved());
-        } else {
+        } else { // MovementType.EXIT
             product.setQuantityInStock(product.getQuantityInStock() - dto.quantityMoved());
         }
-        productRepository.save(product);
 
-        // Registra movimento
-        Movement movement = new Movement();
-        movement.setProductId(dto.productId());
-        movement.setQuantityMoved(dto.quantityMoved());
-        movement.setMovementType(dto.movementType());
+        // Salvar produto com estoque atualizado
+        try {
+            productRepository.save(product);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityViolationException(
+                    "Erro ao atualizar o estoque do produto", ex
+            );
+        }
 
-        return mapper.toResponseDTO(movementRepository.save(movement));
+        // Criar registro de movimento
+        Movement movement = mapper.toEntity(dto);
+
+        try {
+            return mapper.toResponseDTO(movementRepository.save(movement));
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityViolationException(
+                    "Erro ao registrar o movimento no banco de dados", ex
+            );
+        }
     }
 }
 
