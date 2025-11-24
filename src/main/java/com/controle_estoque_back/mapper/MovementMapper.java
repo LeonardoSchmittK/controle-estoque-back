@@ -11,7 +11,7 @@ public class MovementMapper {
     public MovementResponseDTO toResponseDTO(Movement movement) {
         return new MovementResponseDTO(
                 movement.getId(),
-                movement.getProductId(),
+                movement.getProduct().getId(),
                 movement.getQuantityMoved(),
                 movement.getMovementType().name(),
                 movement.getMovementDate()
@@ -20,7 +20,6 @@ public class MovementMapper {
 
     public Movement toEntity(MovementRequestDTO dto) {
         Movement m = new Movement();
-        m.setProductId(dto.productId());
         m.setQuantityMoved(dto.quantityMoved());
         m.setMovementType(dto.movementType());
         return m;
