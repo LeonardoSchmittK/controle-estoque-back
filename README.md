@@ -78,8 +78,8 @@ GET /most-moved -> produtos mais movimentados
 
 ## Contribuidores
 
-David Camargo Rech 10724112255
-Gabriel Martins Meira 10724113373
-Leonardo Schmitt 10724112322
-Leonardo Sousa Vargas 10724111015
-Mateus Almeida Santos 10724112341
+David Camargo Rech 10724112255,
+Gabriel Martins Meira 10724113373,
+Leonardo Schmitt 10724112322,
+Leonardo Sousa Vargas 10724111015,
+Mateus Almeida Santos 10724112341,
