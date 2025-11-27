@@ -60,7 +60,7 @@ Exemplo: {"name": "Milho", "unitPrice": 5.99, "unit": "un", "quantityInStock": 1
 PUT /{id} -> atualiza produto  
 DELETE /{id} -> remove produto  
 PATCH /price-adjustment -> reajusta preço de todos os produtos  
-Exemplo: {"percentage": 10.0}
+Exemplo: 10
 
 ### Movimentos (/api/movements)
 
